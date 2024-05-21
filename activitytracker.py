@@ -6,11 +6,12 @@ conn = sqlite3.connect('activity_tracker.db')
 c = conn.cursor()
 
 #create the table if it doesn't exist
-c.execute('''CREATE TABLE IF NOT EXISTS activity_log (datetime TEXT, activity TEXT, happiness_score INTEGER)''')
+c.execute('''CREATE TABLE IF NOT EXISTS activity_log (datetime TEXT, activity TEXT, emotion TEXT, happiness_score INTEGER)''')
 
 # Function to get user input and store in the database
 def log_activity():
-    activity = input("What activity are you working on?")
+    activity = input("What activity are you working on?: ")
+    Emotion = input("How are you feeling now? For example, happy, sad, fustrated, or neutral: ")
     happiness_score = int(input("Enter a happiness score (1-5): "))
 
     #Get the current date and time
@@ -18,7 +19,7 @@ def log_activity():
     dt_string =now.strftime("%Y-%m-%d %H:%M:%S")
 
     #insert the data into the table
-    c.execute("INSERT INTO activity_log VALUES(?, ?, ?)",(dt_string, activity, happiness_score))
+    c.execute("INSERT INTO activity_log VALUES(?, ?, ?, ?)",(dt_string, activity, Emotion, happiness_score))
     conn.commit()
     print("Activity logged successfully!")
 
